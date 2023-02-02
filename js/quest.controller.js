@@ -15,15 +15,19 @@ function init() {
 }
 
 function onStartGuessing() {
-  // TODO: hide the game-start section
+  // hide the game-start section
+  $('.game-start').hide()
 
   renderQuest()
   // TODO: show the quest section
+  $('.quest').show()
 }
 
 function renderQuest() {
-  // TODO: select the <h2> inside quest and update
+  // select the <h2> inside quest and update
   // its text by the currQuest text
+
+  $('.quest h2').html(getCurrQuest().txt)
 }
 
 function onUserResponse(ev) {
@@ -36,10 +40,13 @@ function onUserResponse(ev) {
       // TODO: improve UX
     } else {
       alert('I dont know...teach me!')
-      // TODO: hide and show new-quest section
+      // hide and show new-quest section
+      $('.quest').hide()
+      $('.new-quest').show()
     }
   } else {
-    // TODO: update the lastRes global var
+    // update the lastRes global var
+    gLastRes = res
     moveToNextQuest(res)
     renderQuest()
   }
@@ -47,10 +54,12 @@ function onUserResponse(ev) {
 
 function onAddGuess(ev) {
   ev.preventDefault()
+  
+  // Get the inputs' values
   var newGuess = $('#newGuess').val()
   var newQuest = $('#newQuest').val()
+  // console.log(newQuest, newGuess)
 
-  // TODO: Get the inputs' values
   // TODO: Call the service addGuess
 
   onRestartGame()

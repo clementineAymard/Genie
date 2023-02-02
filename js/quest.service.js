@@ -8,6 +8,7 @@ function createQuestsTree() {
   gQuestsTree = createQuest('Male?')
   gQuestsTree.yes = createQuest('Gandhi')
   gQuestsTree.no = createQuest('Rita')
+
   gCurrQuest = gQuestsTree
   gPrevQuest = null
 }
@@ -26,6 +27,8 @@ function isChildless(node) {
 
 function moveToNextQuest(res) {
   // TODO: update the gPrevQuest, gCurrQuest global vars
+  gPrevQuest = gCurrQuest
+  gCurrQuest = gCurrQuest[res]
 }
 
 function addGuess(newQuestTxt, newGuessTxt, lastRes) {
