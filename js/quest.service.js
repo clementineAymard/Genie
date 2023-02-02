@@ -3,14 +3,22 @@
 var gQuestsTree
 var gCurrQuest
 var gPrevQuest = null
+const STORAGE_KEY = 'questTreeDB'
 
 function createQuestsTree() {
-  gQuestsTree = createQuest('Male?')
-  gQuestsTree.yes = createQuest('Gandhi')
-  gQuestsTree.no = createQuest('Rita')
+  gQuestsTree = loadFromStorage(STORAGE_KEY)
+
+  if (!gQuestsTree) {
+    gQuestsTree = createQuest('Male?')
+    gQuestsTree.yes = createQuest('Gandhi')
+    gQuestsTree.no = createQuest('Rita')
+    saveToStorage(STORAGE_KEY, gQuestsTree)
+  }
 
   gCurrQuest = gQuestsTree
   gPrevQuest = null
+
+
 }
 
 function createQuest(txt) {
@@ -32,7 +40,14 @@ function moveToNextQuest(res) {
 }
 
 function addGuess(newQuestTxt, newGuessTxt, lastRes) {
-  // TODO: Create and Connect the 2 Quests to the quetsions tree
+  // Create and Connect the 2 Quests to the questions tree
+  var temp = gCurrQuest.txt
+  // console.log('gCurrQuest:', gCurrQuest)
+  gCurrQuest.txt = newQuestTxt 
+  gCurrQuest.yes = createQuest(newGuessTxt)
+  gCurrQuest.no = createQuest(temp)
+
+  saveToStorage(STORAGE_KEY, gQuestsTree)
 }
 
 function getCurrQuest() {

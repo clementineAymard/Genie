@@ -8,9 +8,13 @@ $('.btn-start').click(onStartGuessing)
 $('.btn-yes').click({ ans: 'yes' }, onUserResponse)
 $('.btn-no').click({ ans: 'no' }, onUserResponse)
 $('.btn-add-guess').click(onAddGuess)
+$('.btn-close').click(() => ($('.modal').hide()))
+$('.btn-secondary').click(() => ($('.modal').hide()))
+$('.btn-primary').click(onPlayAgain)
 
 function init() {
   console.log('Started...')
+  // localStorage.clear()
   createQuestsTree()
 }
 
@@ -36,7 +40,8 @@ function onUserResponse(ev) {
   // If this node has no children
   if (isChildless(getCurrQuest())) {
     if (res === 'yes') {
-      alert('Yes, I knew it!')
+      $('.modal').show()
+      // alert('Yes, I knew it!')
       // TODO: improve UX
     } else {
       alert('I dont know...teach me!')
@@ -54,13 +59,14 @@ function onUserResponse(ev) {
 
 function onAddGuess(ev) {
   ev.preventDefault()
-  
+
   // Get the inputs' values
   var newGuess = $('#newGuess').val()
   var newQuest = $('#newQuest').val()
   // console.log(newQuest, newGuess)
 
   // TODO: Call the service addGuess
+  addGuess(newQuest, newGuess, 'no')
 
   onRestartGame()
 }
@@ -69,5 +75,12 @@ function onRestartGame() {
   $('.new-quest').hide()
   $('.game-start').show()
   gLastRes = null
+  init()
 }
 
+function onPlayAgain(){
+  $('.modal').hide()
+  $('.quest').hide()
+
+  onRestartGame()
+}
